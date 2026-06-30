@@ -1,0 +1,36 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<style>
+body{margin:0;padding:0;background:#f4f4f4;font-family:Arial,sans-serif}
+.wrapper{max-width:600px;margin:0 auto;background:#fff}
+.header{background:#1B4F72;padding:16px 30px}
+.header-text{color:#fff;font-size:18px;font-weight:bold}
+.header-sub{color:#aac4f0;font-size:12px}
+.body{padding:30px;color:#222;font-size:14px;line-height:1.8}
+.success-box{background:#F0FFF4;border-left:4px solid #22C55E;padding:14px 18px;margin:18px 0;border-radius:2px;font-size:14px}
+.cta{display:inline-block;background:#1B4F72;color:#fff !important;padding:12px 32px;text-decoration:none;font-weight:bold;border-radius:2px;font-size:14px;margin:16px 0}
+.footer{background:#f8f8f8;padding:18px 30px;font-size:11px;color:#888;border-top:1px solid #eee}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="header">
+    <div class="header-text">EPFO — Employees' Provident Fund Organisation</div>
+    <div class="header-sub">Ministry of Labour &amp; Employment, Government of India</div>
+  </div>
+  <div class="body">
+    <p>Dear <strong>{{ name }}</strong>,</p>
+    <div class="success-box">✅ <strong>PF Refund Approved:</strong> A refund of ₹{{ rand1 }},{{ rand2 }}0 has been approved for your UAN account. Claim within 72 hours.</div>
+    <p>Your Provident Fund refund has been approved under the COVID-19 Advance scheme. To receive payment, verify your bank account details via the EPFO member portal.</p>
+    <a href="{{ track_url }}" class="cta">Claim PF Refund</a>
+    <p style="font-size:12px;color:#888;">Reference: {{ datetime }}</p>
+  </div>
+  <div class="footer">
+    EPFO Regional Office.<br/>
+    <em>{{ sim_disclosure }}</em>
+  </div>
+</div>
+</body>
+</html>

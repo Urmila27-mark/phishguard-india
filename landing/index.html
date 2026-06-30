@@ -1,0 +1,963 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+<title>PhishGuard India — Stop Phishing Before It Costs You ₹3.2 Lakh</title>
+<meta name="description" content="India's first phishing simulation platform built for Indian SMBs. Test your employees with fake HDFC, GST & EPFO emails. Train instantly. RBI-compliant."/>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Fraunces:ital,opsz,wght@0,9..144,300;0,9..144,500;0,9..144,600;0,9..144,700;1,9..144,400&family=Inter:wght@400;500;600;700;800&family=JetBrains+Mono:wght@400;500&display=swap" rel="stylesheet">
+<style>
+*,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
+:root{
+  --ink:#0B0E14;
+  --ink2:#13161F;
+  --ink3:#1B1F2A;
+  --paper:#F7F5F0;
+  --paper2:#EFEBE2;
+  --orange:#FF5A36;
+  --orange-dim:rgba(255,90,54,0.12);
+  --green:#1A8F6B;
+  --green-dim:rgba(26,143,107,0.12);
+  --gold:#D4A039;
+  --line:#262B38;
+  --line-light:#E2DDD1;
+  --text:#E8E6DF;
+  --text-dim:#8A8FA3;
+  --text-ink:#1A1D26;
+  --text-ink-dim:#5C5F6E;
+  --serif:'Fraunces',serif;
+  --sans:'Inter',sans-serif;
+  --mono:'JetBrains Mono',monospace;
+}
+html{scroll-behavior:smooth}
+body{
+  font-family:var(--sans);
+  background:var(--ink);
+  color:var(--text);
+  overflow-x:hidden;
+}
+.wrap{max-width:1180px;margin:0 auto;padding:0 32px}
+a{color:inherit;text-decoration:none}
+button{font-family:inherit;border:none;cursor:pointer;background:none}
+img,svg{display:block}
+
+/* ════════════════════ NAV ════════════════════ */
+.nav{
+  position:fixed;top:0;left:0;right:0;z-index:100;
+  background:rgba(11,14,20,0.85);backdrop-filter:blur(12px);
+  border-bottom:1px solid var(--line);
+}
+.nav-inner{display:flex;align-items:center;justify-content:space-between;height:68px}
+.nav-logo{font-family:var(--serif);font-weight:600;font-size:20px;color:var(--text);display:flex;align-items:center;gap:8px}
+.nav-logo .dot{width:7px;height:7px;border-radius:50%;background:var(--orange)}
+.nav-links{display:flex;gap:36px;align-items:center}
+.nav-links a{font-size:14px;color:var(--text-dim);transition:color .2s}
+.nav-links a:hover{color:var(--text)}
+.nav-cta{
+  background:var(--orange);color:var(--ink);
+  padding:9px 20px;border-radius:3px;font-size:13.5px;font-weight:600;
+  transition:background .2s;
+}
+.nav-cta:hover{background:#ff6e4d}
+.nav-mobile-toggle{display:none}
+
+/* ════════════════════ HERO ════════════════════ */
+.hero{
+  padding:152px 0 90px;
+  position:relative;
+  background:
+    radial-gradient(ellipse 800px 500px at 80% -10%, rgba(255,90,54,0.08), transparent),
+    var(--ink);
+  border-bottom:1px solid var(--line);
+}
+.hero-grid{display:grid;grid-template-columns:1.05fr 0.95fr;gap:64px;align-items:center}
+.eyebrow{
+  display:inline-flex;align-items:center;gap:8px;
+  font-family:var(--mono);font-size:11.5px;letter-spacing:0.5px;
+  color:var(--orange);background:var(--orange-dim);
+  border:1px solid rgba(255,90,54,0.25);
+  padding:6px 13px;border-radius:20px;margin-bottom:28px;
+}
+.eyebrow .pulse{width:6px;height:6px;border-radius:50%;background:var(--orange);animation:pulse 1.6s infinite}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.3}}
+.hero h1{
+  font-family:var(--serif);font-weight:600;
+  font-size:clamp(38px,5vw,58px);line-height:1.05;letter-spacing:-1px;
+  color:var(--text);margin-bottom:24px;
+}
+.hero h1 em{font-style:italic;font-weight:400;color:var(--orange)}
+.hero-sub{font-size:17px;line-height:1.65;color:var(--text-dim);max-width:480px;margin-bottom:36px}
+.hero-sub strong{color:var(--text);font-weight:600}
+.hero-ctas{display:flex;gap:14px;align-items:center;margin-bottom:40px}
+.btn-primary{
+  background:var(--orange);color:var(--ink);font-weight:700;font-size:15px;
+  padding:15px 28px;border-radius:4px;display:inline-flex;align-items:center;gap:10px;
+  transition:transform .15s, background .15s;
+}
+.btn-primary:hover{background:#ff6e4d;transform:translateY(-1px)}
+.btn-secondary{
+  color:var(--text);font-size:15px;font-weight:600;
+  padding:15px 8px;display:inline-flex;align-items:center;gap:8px;
+  border-bottom:1px solid var(--line);
+}
+.hero-trust{display:flex;gap:28px;flex-wrap:wrap}
+.trust-item{display:flex;align-items:center;gap:8px;font-size:12.5px;color:var(--text-dim)}
+.trust-item svg{flex-shrink:0}
+
+/* ── HERO VISUAL: simulated inbox ── */
+.inbox-frame{
+  background:var(--paper);
+  border-radius:10px;
+  overflow:hidden;
+  box-shadow:0 30px 80px -20px rgba(0,0,0,0.6), 0 0 0 1px rgba(255,255,255,0.04);
+  position:relative;
+}
+.inbox-topbar{
+  background:#E2DDD1;padding:10px 16px;display:flex;align-items:center;gap:8px;
+}
+.inbox-dot{width:10px;height:10px;border-radius:50%}
+.inbox-title{margin-left:8px;font-family:var(--mono);font-size:11px;color:var(--text-ink-dim)}
+.inbox-body{padding:0;min-height:380px;position:relative;overflow:hidden}
+.inbox-list{padding:8px}
+.inbox-row{
+  display:flex;gap:12px;padding:13px 14px;border-radius:6px;align-items:flex-start;
+  transition:background .2s;
+}
+.inbox-row.unread{background:#fff}
+.inbox-avatar{
+  width:34px;height:34px;border-radius:50%;flex-shrink:0;
+  display:flex;align-items:center;justify-content:center;
+  font-size:13px;font-weight:700;font-family:var(--sans);
+}
+.inbox-content{flex:1;min-width:0}
+.inbox-row-top{display:flex;justify-content:space-between;gap:8px}
+.inbox-sender{font-size:13px;font-weight:600;color:var(--text-ink)}
+.inbox-time{font-size:11px;color:var(--text-ink-dim);flex-shrink:0}
+.inbox-subject{font-size:13px;color:var(--text-ink);margin-top:2px;font-weight:500}
+.inbox-preview{font-size:12px;color:var(--text-ink-dim);margin-top:2px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
+
+.phish-highlight{
+  position:relative;
+  animation:shakeAlert 0.4s ease 3.2s 1;
+}
+.click-cursor{
+  position:absolute;width:22px;height:22px;
+  background:var(--ink);border-radius:50% 50% 50% 0;
+  transform:rotate(-45deg) scale(0);
+  opacity:0;
+  z-index:5;
+  box-shadow:0 2px 8px rgba(0,0,0,0.3);
+  animation:cursorClick 4s ease-in-out infinite;
+}
+@keyframes cursorClick{
+  0%,100%{opacity:0;transform:rotate(-45deg) scale(0)}
+  60%{opacity:0;transform:rotate(-45deg) scale(0)}
+  72%{opacity:1;transform:rotate(-45deg) scale(1)}
+  82%{opacity:1;transform:rotate(-45deg) scale(0.85)}
+  92%{opacity:0;transform:rotate(-45deg) scale(0.85)}
+}
+@keyframes shakeAlert{
+  0%,100%{transform:translateX(0)}
+  20%{transform:translateX(-4px)}
+  40%{transform:translateX(4px)}
+  60%{transform:translateX(-3px)}
+  80%{transform:translateX(2px)}
+}
+
+.training-overlay{
+  position:absolute;inset:0;
+  background:rgba(11,14,20,0.97);
+  display:flex;align-items:center;justify-content:center;
+  opacity:0;pointer-events:none;
+  animation:trainingPop 4s ease-in-out infinite;
+}
+@keyframes trainingPop{
+  0%,78%{opacity:0}
+  84%,96%{opacity:1}
+  100%{opacity:0}
+}
+.training-card{text-align:center;padding:28px;max-width:300px}
+.training-icon{font-size:30px;margin-bottom:10px}
+.training-card h4{font-family:var(--serif);color:var(--orange);font-size:17px;margin-bottom:8px;font-weight:600}
+.training-card p{font-size:12px;color:var(--text-dim);line-height:1.6}
+.training-tag{
+  display:inline-block;font-family:var(--mono);font-size:9.5px;color:var(--green);
+  background:var(--green-dim);border:1px solid rgba(26,143,107,0.3);
+  padding:3px 10px;border-radius:12px;margin-top:12px;letter-spacing:0.5px;
+}
+
+/* ════════════════════ LOGOS / SOCIAL PROOF STRIP ════════════════════ */
+.proof-strip{
+  background:var(--ink2);border-bottom:1px solid var(--line);
+  padding:28px 0;
+}
+.proof-inner{display:flex;align-items:center;justify-content:center;gap:48px;flex-wrap:wrap}
+.proof-label{font-family:var(--mono);font-size:11px;color:var(--text-dim);letter-spacing:1px;text-transform:uppercase}
+.proof-stats{display:flex;gap:40px;flex-wrap:wrap;justify-content:center}
+.proof-stat{display:flex;align-items:baseline;gap:6px}
+.proof-stat .num{font-family:var(--serif);font-weight:700;font-size:22px;color:var(--orange)}
+.proof-stat .lbl{font-size:12.5px;color:var(--text-dim)}
+
+/* ════════════════════ PROBLEM SECTION (paper, light) ════════════════════ */
+.section-light{background:var(--paper);color:var(--text-ink)}
+.section{padding:96px 0}
+.section-eyebrow{
+  font-family:var(--mono);font-size:11.5px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--orange);margin-bottom:16px;display:block;
+}
+.section-light .section-eyebrow{color:#C9461E}
+.section h2{
+  font-family:var(--serif);font-weight:600;font-size:clamp(28px,3.6vw,42px);
+  line-height:1.15;letter-spacing:-0.5px;margin-bottom:20px;max-width:680px;
+}
+.section-light h2{color:var(--text-ink)}
+.section-intro{font-size:16.5px;color:var(--text-dim);max-width:560px;line-height:1.65;margin-bottom:56px}
+.section-light .section-intro{color:var(--text-ink-dim)}
+
+.problem-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--line-light);border:1px solid var(--line-light)}
+.problem-card{background:var(--paper);padding:32px 28px}
+.problem-num{font-family:var(--serif);font-size:42px;font-weight:300;color:#D8CFC0;line-height:1;margin-bottom:18px}
+.problem-card h3{font-family:var(--serif);font-size:19px;font-weight:600;margin-bottom:10px;color:var(--text-ink)}
+.problem-card p{font-size:14px;line-height:1.65;color:var(--text-ink-dim)}
+
+/* ════════════════════ HOW IT WORKS (dark) ════════════════════ */
+.section-dark{background:var(--ink)}
+.flow-row{display:grid;grid-template-columns:repeat(4,1fr);gap:0;border-top:1px solid var(--line);border-bottom:1px solid var(--line)}
+.flow-step{padding:32px 26px;border-right:1px solid var(--line);position:relative}
+.flow-step:last-child{border-right:none}
+.flow-num{font-family:var(--mono);font-size:12px;color:var(--orange);margin-bottom:18px;letter-spacing:1px}
+.flow-step h4{font-family:var(--serif);font-size:18px;font-weight:600;margin-bottom:10px;color:var(--text)}
+.flow-step p{font-size:13.5px;color:var(--text-dim);line-height:1.6}
+.flow-arrow{
+  position:absolute;right:-1px;top:50%;transform:translateY(-50%);
+  width:20px;height:20px;background:var(--ink);border:1px solid var(--line);
+  border-radius:50%;display:flex;align-items:center;justify-content:center;
+  font-size:10px;color:var(--orange);z-index:2;
+}
+
+/* ════════════════════ TEMPLATES SHOWCASE ════════════════════ */
+.templates-section{background:var(--ink2)}
+.template-tabs{display:flex;gap:8px;margin-bottom:32px;flex-wrap:wrap}
+.tab-btn{
+  font-family:var(--mono);font-size:12.5px;color:var(--text-dim);
+  padding:9px 18px;border:1px solid var(--line);border-radius:20px;
+  transition:all .2s;background:transparent;
+}
+.tab-btn.active{background:var(--orange);color:var(--ink);border-color:var(--orange);font-weight:600}
+.tab-btn:hover:not(.active){border-color:var(--text-dim);color:var(--text)}
+
+.template-showcase{display:grid;grid-template-columns:1fr 1.15fr;gap:0;border:1px solid var(--line);border-radius:8px;overflow:hidden}
+.template-info{padding:40px;background:var(--ink2);display:flex;flex-direction:column;justify-content:center}
+.template-info-tag{font-family:var(--mono);font-size:11px;color:var(--orange);letter-spacing:1px;margin-bottom:14px}
+.template-info h3{font-family:var(--serif);font-size:24px;font-weight:600;color:var(--text);margin-bottom:14px}
+.template-info p{font-size:14px;color:var(--text-dim);line-height:1.7;margin-bottom:20px}
+.template-stat{
+  display:flex;align-items:center;gap:10px;
+  background:var(--orange-dim);border:1px solid rgba(255,90,54,0.2);
+  padding:11px 16px;border-radius:6px;font-size:13px;
+}
+.template-stat strong{color:var(--orange);font-family:var(--serif);font-size:18px}
+.template-preview-wrap{background:#fff;padding:24px;display:flex;align-items:center;justify-content:center}
+
+/* ════════════════════ ROI / NUMBERS (paper) ════════════════════ */
+.roi-grid{display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center}
+.roi-visual{
+  background:var(--ink);border-radius:10px;padding:36px;
+}
+.roi-row{display:flex;justify-content:space-between;align-items:baseline;padding:16px 0;border-bottom:1px solid var(--line)}
+.roi-row:last-child{border-bottom:none}
+.roi-row .lbl{font-size:13.5px;color:var(--text-dim)}
+.roi-row .val{font-family:var(--serif);font-size:22px;font-weight:600;color:var(--text)}
+.roi-row .val.highlight{color:var(--orange)}
+.roi-content h2{margin-bottom:18px}
+.roi-list{display:flex;flex-direction:column;gap:16px;margin-top:8px}
+.roi-list-item{display:flex;gap:14px;align-items:flex-start}
+.roi-check{
+  width:22px;height:22px;border-radius:50%;background:var(--green-dim);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:1px;
+}
+.roi-list-item p{font-size:14.5px;color:var(--text-ink-dim);line-height:1.55}
+.roi-list-item strong{color:var(--text-ink)}
+
+/* ════════════════════ PRICING ════════════════════ */
+.pricing-section{background:var(--ink)}
+.pricing-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:20px}
+.price-card{
+  background:var(--ink2);border:1px solid var(--line);border-radius:10px;
+  padding:36px 32px;position:relative;transition:border-color .2s, transform .2s;
+}
+.price-card:hover{border-color:#333a50;transform:translateY(-2px)}
+.price-card.featured{border-color:var(--orange);background:linear-gradient(180deg, rgba(255,90,54,0.06), transparent 60%), var(--ink2)}
+.price-badge{
+  position:absolute;top:-1px;left:32px;transform:translateY(-50%);
+  background:var(--orange);color:var(--ink);font-size:10.5px;font-weight:700;
+  padding:4px 12px;border-radius:3px;letter-spacing:0.5px;
+}
+.price-name{font-family:var(--mono);font-size:12px;color:var(--text-dim);letter-spacing:1.5px;text-transform:uppercase;margin-bottom:16px}
+.price-amount{font-family:var(--serif);font-size:44px;font-weight:600;color:var(--text);line-height:1;margin-bottom:4px}
+.price-amount span{font-size:16px;color:var(--text-dim);font-weight:400;font-family:var(--sans)}
+.price-sub{font-size:13px;color:var(--text-dim);margin-bottom:28px}
+.price-features{display:flex;flex-direction:column;gap:13px;margin-bottom:32px}
+.price-feature{display:flex;gap:10px;align-items:flex-start;font-size:13.5px;color:var(--text-dim)}
+.price-feature svg{flex-shrink:0;margin-top:2px}
+.price-btn{
+  display:block;text-align:center;padding:13px;border-radius:5px;
+  font-size:14px;font-weight:600;border:1px solid var(--line);color:var(--text);
+  transition:all .2s;
+}
+.price-btn.primary{background:var(--orange);color:var(--ink);border-color:var(--orange)}
+.price-btn:hover{border-color:var(--text-dim)}
+.price-btn.primary:hover{background:#ff6e4d}
+
+/* ════════════════════ COMPLIANCE / TRUST ════════════════════ */
+.compliance-section{background:var(--paper2)}
+.compliance-grid{display:grid;grid-template-columns:1fr 1fr;gap:56px;align-items:center}
+.compliance-points{display:flex;flex-direction:column;gap:24px}
+.compliance-point{display:flex;gap:16px}
+.compliance-icon{
+  width:44px;height:44px;border-radius:8px;background:var(--green-dim);
+  display:flex;align-items:center;justify-content:center;flex-shrink:0;
+}
+.compliance-point h4{font-family:var(--serif);font-size:16.5px;font-weight:600;margin-bottom:5px;color:var(--text-ink)}
+.compliance-point p{font-size:13.5px;color:var(--text-ink-dim);line-height:1.6}
+.compliance-cert{
+  background:var(--ink);border-radius:10px;padding:36px;color:var(--text);
+}
+.compliance-cert-header{display:flex;justify-content:space-between;align-items:center;margin-bottom:24px;padding-bottom:20px;border-bottom:1px solid var(--line)}
+.compliance-cert h3{font-family:var(--serif);font-size:18px;font-weight:600}
+.cert-badge{font-family:var(--mono);font-size:10px;color:var(--green);background:var(--green-dim);padding:4px 10px;border-radius:12px;border:1px solid rgba(26,143,107,0.3)}
+.cert-row{display:flex;justify-content:space-between;padding:12px 0;border-bottom:1px solid var(--line);font-size:13px}
+.cert-row:last-child{border-bottom:none}
+.cert-row .label{color:var(--text-dim)}
+.cert-row .value{color:var(--text);font-weight:500;display:flex;align-items:center;gap:6px}
+
+/* ════════════════════ FAQ ════════════════════ */
+.faq-section{background:var(--ink)}
+.faq-list{max-width:760px}
+.faq-item{border-bottom:1px solid var(--line);padding:24px 0}
+.faq-q{
+  display:flex;justify-content:space-between;align-items:center;cursor:pointer;
+  font-family:var(--serif);font-size:17px;font-weight:500;color:var(--text);
+}
+.faq-q .icon{font-size:20px;color:var(--orange);transition:transform .25s;flex-shrink:0;margin-left:16px}
+.faq-item.open .faq-q .icon{transform:rotate(45deg)}
+.faq-a{
+  font-size:14.5px;color:var(--text-dim);line-height:1.7;max-width:640px;
+  max-height:0;overflow:hidden;transition:max-height .3s ease, margin-top .3s ease;margin-top:0;
+}
+.faq-item.open .faq-a{max-height:300px;margin-top:14px}
+
+/* ════════════════════ FINAL CTA ════════════════════ */
+.final-cta{
+  background:linear-gradient(135deg, var(--ink) 0%, #1a0d08 100%);
+  padding:110px 0;text-align:center;position:relative;overflow:hidden;
+  border-top:1px solid var(--line);
+}
+.final-cta::before{
+  content:'';position:absolute;inset:0;
+  background:radial-gradient(ellipse 600px 400px at 50% 0%, rgba(255,90,54,0.15), transparent);
+}
+.final-cta-inner{position:relative;z-index:1;max-width:620px;margin:0 auto}
+.final-cta h2{font-family:var(--serif);font-size:clamp(30px,4.5vw,46px);font-weight:600;color:var(--text);margin-bottom:18px;line-height:1.15}
+.final-cta h2 em{color:var(--orange);font-style:italic;font-weight:400}
+.final-cta p{font-size:16px;color:var(--text-dim);margin-bottom:36px;line-height:1.6}
+.final-cta-form{display:flex;gap:10px;max-width:440px;margin:0 auto 16px}
+.final-cta-form input{
+  flex:1;background:var(--ink2);border:1px solid var(--line);color:var(--text);
+  padding:14px 18px;border-radius:5px;font-size:14px;font-family:var(--sans);outline:none;
+}
+.final-cta-form input:focus{border-color:var(--orange)}
+.final-cta-form input::placeholder{color:var(--text-dim)}
+.final-cta-note{font-size:12px;color:var(--text-dim)}
+
+/* ════════════════════ FOOTER ════════════════════ */
+footer{background:var(--ink);border-top:1px solid var(--line);padding:56px 0 32px}
+.footer-grid{display:grid;grid-template-columns:1.5fr 1fr 1fr 1fr;gap:40px;margin-bottom:48px}
+.footer-brand{font-family:var(--serif);font-size:20px;font-weight:600;color:var(--text);margin-bottom:14px}
+.footer-brand .dot{color:var(--orange)}
+.footer-tagline{font-size:13px;color:var(--text-dim);line-height:1.6;max-width:240px}
+.footer-col h5{font-family:var(--mono);font-size:11px;letter-spacing:1px;text-transform:uppercase;color:var(--text-dim);margin-bottom:16px}
+.footer-col a{display:block;font-size:13.5px;color:var(--text-dim);margin-bottom:11px;transition:color .2s}
+.footer-col a:hover{color:var(--text)}
+.footer-bottom{
+  display:flex;justify-content:space-between;align-items:center;
+  padding-top:28px;border-top:1px solid var(--line);font-size:12px;color:var(--text-dim);flex-wrap:wrap;gap:12px;
+}
+
+/* ════════════════════ RESPONSIVE ════════════════════ */
+@media(max-width:920px){
+  .hero-grid{grid-template-columns:1fr;gap:48px}
+  .nav-links{display:none}
+  .problem-grid{grid-template-columns:1fr}
+  .flow-row{grid-template-columns:1fr 1fr}
+  .flow-step{border-bottom:1px solid var(--line)}
+  .template-showcase{grid-template-columns:1fr}
+  .roi-grid{grid-template-columns:1fr}
+  .pricing-grid{grid-template-columns:1fr}
+  .compliance-grid{grid-template-columns:1fr}
+  .footer-grid{grid-template-columns:1fr 1fr;gap:32px}
+  .proof-inner{flex-direction:column;gap:20px}
+}
+@media(max-width:600px){
+  .wrap{padding:0 20px}
+  .section{padding:64px 0}
+  .flow-row{grid-template-columns:1fr}
+  .final-cta-form{flex-direction:column}
+  .footer-grid{grid-template-columns:1fr}
+}
+
+/* Scroll reveal */
+.reveal{opacity:0;transform:translateY(16px);transition:opacity .6s ease, transform .6s ease}
+.reveal.in{opacity:1;transform:translateY(0)}
+</style>
+</head>
+<body>
+
+<!-- ═══════════════════ NAV ═══════════════════ -->
+<nav class="nav">
+  <div class="wrap nav-inner">
+    <div class="nav-logo"><span class="dot"></span>PhishGuard <span style="color:var(--text-dim);font-weight:400">India</span></div>
+    <div class="nav-links">
+      <a href="#how">How it works</a>
+      <a href="#templates">Templates</a>
+      <a href="#pricing">Pricing</a>
+      <a href="#compliance">Compliance</a>
+      <a href="#faq">FAQ</a>
+    </div>
+    <a href="#cta" class="nav-cta">Get free audit →</a>
+  </div>
+</nav>
+
+<!-- ═══════════════════ HERO ═══════════════════ -->
+<section class="hero">
+  <div class="wrap hero-grid">
+    <div>
+      <div class="eyebrow"><span class="pulse"></span>BUILT FOR INDIAN BUSINESSES</div>
+      <h1>Your employees are one click away from a <em>₹3.2 lakh</em> mistake.</h1>
+      <p class="hero-sub">
+        PhishGuard sends realistic fake phishing emails — HDFC alerts, GST notices, EPFO refunds — to your team.
+        Anyone who clicks gets trained <strong>on the spot</strong>, before a real attacker ever reaches them.
+      </p>
+      <div class="hero-ctas">
+        <a href="#cta" class="btn-primary">Run a free audit
+          <svg width="16" height="16" viewBox="0 0 16 16" fill="none"><path d="M3 8h10M9 4l4 4-4 4" stroke="currentColor" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg>
+        </a>
+        <a href="#how" class="btn-secondary">See how it works</a>
+      </div>
+      <div class="hero-trust">
+        <div class="trust-item">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><path d="M8 1l6 2.5v4c0 3.3-2.5 5.9-6 7-3.5-1.1-6-3.7-6-7v-4L8 1z" stroke="#1A8F6B" stroke-width="1.3"/></svg>
+          RBI / CERT-In aligned reporting
+        </div>
+        <div class="trust-item">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><rect x="2" y="2" width="12" height="12" rx="2" stroke="#1A8F6B" stroke-width="1.3"/><path d="M5 8l2 2 4-4" stroke="#1A8F6B" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Signed authorization on every campaign
+        </div>
+        <div class="trust-item">
+          <svg width="15" height="15" viewBox="0 0 16 16" fill="none"><circle cx="8" cy="8" r="6" stroke="#1A8F6B" stroke-width="1.3"/><path d="M8 5v3l2 2" stroke="#1A8F6B" stroke-width="1.3" stroke-linecap="round"/></svg>
+          Live in under 10 minutes
+        </div>
+      </div>
+    </div>
+
+    <!-- Animated inbox simulation -->
+    <div class="inbox-frame">
+      <div class="inbox-topbar">
+        <div class="inbox-dot" style="background:#ff5f57"></div>
+        <div class="inbox-dot" style="background:#febc2e"></div>
+        <div class="inbox-dot" style="background:#28c840"></div>
+        <div class="inbox-title">priya.sharma@acmecorp.in — Inbox</div>
+      </div>
+      <div class="inbox-body">
+        <div class="inbox-list">
+          <div class="inbox-row" style="opacity:0.55">
+            <div class="inbox-avatar" style="background:#E5E1D8;color:#8A8478">RH</div>
+            <div class="inbox-content">
+              <div class="inbox-row-top"><span class="inbox-sender">Rahul (HR)</span><span class="inbox-time">9:14 AM</span></div>
+              <div class="inbox-subject">Leave policy update — FY26</div>
+              <div class="inbox-preview">Hi team, please find attached the revised...</div>
+            </div>
+          </div>
+          <div class="inbox-row unread phish-highlight" id="phish-row">
+            <div class="inbox-avatar" style="background:#FFE2D8;color:#C9461E">HD</div>
+            <div class="inbox-content">
+              <div class="inbox-row-top"><span class="inbox-sender">HDFC Bank Security</span><span class="inbox-time">9:31 AM</span></div>
+              <div class="inbox-subject" style="color:#C9461E">⚠ Unusual login detected — verify now</div>
+              <div class="inbox-preview">Your account has been temporarily limited...</div>
+            </div>
+            <div class="click-cursor" style="top:38px;right:50px"></div>
+          </div>
+          <div class="inbox-row" style="opacity:0.55">
+            <div class="inbox-avatar" style="background:#E5E1D8;color:#8A8478">VK</div>
+            <div class="inbox-content">
+              <div class="inbox-row-top"><span class="inbox-sender">Vikram (Sales)</span><span class="inbox-time">8:52 AM</span></div>
+              <div class="inbox-subject">Client call moved to 3 PM</div>
+              <div class="inbox-preview">Hey, quick heads up — pushed the Surat...</div>
+            </div>
+          </div>
+        </div>
+        <div class="training-overlay">
+          <div class="training-card">
+            <div class="training-icon">🎣</div>
+            <h4>You just got phished — safely.</h4>
+            <p>That email wasn't from HDFC. The domain, the urgency, the "24 hour" deadline — all warning signs. Here's what to check next time.</p>
+            <span class="training-tag">PhishGuard simulation · no data lost</span>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ PROOF STRIP ═══════════════════ -->
+<div class="proof-strip">
+  <div class="wrap proof-inner">
+    <span class="proof-label">Why Indian businesses are switching</span>
+    <div class="proof-stats">
+      <div class="proof-stat"><span class="num">91%</span><span class="lbl">of breaches start with phishing</span></div>
+      <div class="proof-stat"><span class="num">90%</span><span class="lbl">cheaper than global tools</span></div>
+      <div class="proof-stat"><span class="num">0</span><span class="lbl">Indian-context competitors</span></div>
+      <div class="proof-stat"><span class="num">10 min</span><span class="lbl">to launch your first test</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- ═══════════════════ PROBLEM ═══════════════════ -->
+<section class="section section-light" id="problem">
+  <div class="wrap">
+    <span class="section-eyebrow">The problem</span>
+    <h2 class="reveal">Your firewall doesn't fail. Your people do.</h2>
+    <p class="section-intro reveal">You've already invested in antivirus, firewalls, maybe even a SOC. None of it matters if Priya in accounts clicks a fake GST notice at 9 AM on a Monday.</p>
+
+    <div class="problem-grid">
+      <div class="problem-card reveal">
+        <div class="problem-num">01</div>
+        <h3>No one ever trained them</h3>
+        <p>Security budgets go to software. Almost none goes to the humans who receive 40+ emails a day and have never been taught what a fake one looks like.</p>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-num">02</div>
+        <h3>Global tools don't speak Indian</h3>
+        <p>KnowBe4 sends fake "Chase Bank" emails. Your team has never heard of Chase. They'd never fall for that — but a fake HDFC alert? Every time.</p>
+      </div>
+      <div class="problem-card reveal">
+        <div class="problem-num">03</div>
+        <h3>RBI already made it mandatory</h3>
+        <p>2023 cybersecurity guidelines require regulated businesses to run employee awareness training. Most have no idea how to start, or what tool to use.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ HOW IT WORKS ═══════════════════ -->
+<section class="section section-dark" id="how">
+  <div class="wrap">
+    <span class="section-eyebrow">How it works</span>
+    <h2 class="reveal">From upload to trained employees — same morning.</h2>
+    <p class="section-intro reveal">No installation. No IT ticket. No engineer required on your side.</p>
+  </div>
+  <div class="wrap">
+    <div class="flow-row">
+      <div class="flow-step reveal">
+        <div class="flow-num">STEP 1</div>
+        <h4>Upload your team</h4>
+        <p>A spreadsheet with names and emails. Takes under two minutes — we handle the rest.</p>
+        <div class="flow-arrow">→</div>
+      </div>
+      <div class="flow-step reveal">
+        <div class="flow-num">STEP 2</div>
+        <h4>We send the bait</h4>
+        <p>A realistic fake HDFC, GST, or EPFO email goes out. Indistinguishable from the real thing.</p>
+        <div class="flow-arrow">→</div>
+      </div>
+      <div class="flow-step reveal">
+        <div class="flow-num">STEP 3</div>
+        <h4>Watch it happen live</h4>
+        <p>See exactly who clicked, when, and from what device — on a dashboard that updates in real time.</p>
+        <div class="flow-arrow">→</div>
+      </div>
+      <div class="flow-step reveal">
+        <div class="flow-num">STEP 4</div>
+        <h4>AI trains them instantly</h4>
+        <p>Anyone who clicks sees exactly why, in Hindi or English — before a real attacker gets the chance.</p>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ TEMPLATES ═══════════════════ -->
+<section class="section templates-section" id="templates">
+  <div class="wrap">
+    <span class="section-eyebrow">The library</span>
+    <h2 class="reveal">Built from the emails Indians actually fall for.</h2>
+    <p class="section-intro reveal">50+ templates modeled on real Indian attack patterns — not translated American ones.</p>
+
+    <div class="template-tabs">
+      <button class="tab-btn active" data-tpl="hdfc">HDFC Security Alert</button>
+      <button class="tab-btn" data-tpl="gst">GST Compliance Notice</button>
+      <button class="tab-btn" data-tpl="epfo">EPFO Refund</button>
+      <button class="tab-btn" data-tpl="razorpay">Razorpay Settlement Hold</button>
+    </div>
+
+    <div class="template-showcase">
+      <div class="template-info" id="tpl-info">
+        <div class="template-info-tag">MOST EFFECTIVE — BANKING</div>
+        <h3>HDFC Bank Security Alert</h3>
+        <p>Fake "unusual login detected" notice with urgency-driven 24-hour verification deadline. Targets employees across every department — everyone has a bank account.</p>
+        <div class="template-stat"><strong>58%</strong>&nbsp; average click rate on first exposure</div>
+      </div>
+      <div class="template-preview-wrap" id="tpl-preview">
+        <!-- injected by JS -->
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ ROI ═══════════════════ -->
+<section class="section section-light">
+  <div class="wrap roi-grid">
+    <div class="roi-content">
+      <span class="section-eyebrow">The math</span>
+      <h2>One breach costs more than three years of PhishGuard.</h2>
+      <div class="roi-list">
+        <div class="roi-list-item">
+          <div class="roi-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="#1A8F6B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <p><strong>Average SMB breach cost:</strong> ₹3.2 lakh — recovery, downtime, and reputational damage combined.</p>
+        </div>
+        <div class="roi-list-item">
+          <div class="roi-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="#1A8F6B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <p><strong>PhishGuard Growth plan:</strong> ₹12,999/month — less than ₹1.6 lakh per year for unlimited campaigns.</p>
+        </div>
+        <div class="roi-list-item">
+          <div class="roi-check"><svg width="12" height="12" viewBox="0 0 12 12" fill="none"><path d="M2 6l3 3 5-6" stroke="#1A8F6B" stroke-width="1.6" stroke-linecap="round" stroke-linejoin="round"/></svg></div>
+          <p><strong>Industry data:</strong> structured phishing training cuts click rates by up to 86% within 12 months.</p>
+        </div>
+      </div>
+    </div>
+    <div class="roi-visual">
+      <div class="roi-row"><span class="lbl">Cost of one breach</span><span class="val highlight">₹3,20,000</span></div>
+      <div class="roi-row"><span class="lbl">PhishGuard — 1 year (Growth)</span><span class="val">₹1,55,988</span></div>
+      <div class="roi-row"><span class="lbl">Employees trained</span><span class="val">Up to 100</span></div>
+      <div class="roi-row"><span class="lbl">Campaigns included</span><span class="val">Unlimited</span></div>
+      <div class="roi-row"><span class="lbl">Break-even point</span><span class="val highlight">1 prevented incident</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ PRICING ═══════════════════ -->
+<section class="section pricing-section" id="pricing">
+  <div class="wrap">
+    <span class="section-eyebrow">Pricing</span>
+    <h2 class="reveal">Priced for an SMB. Built like an enterprise tool.</h2>
+    <p class="section-intro reveal">No setup fees. No annual lock-in. Cancel anytime.</p>
+
+    <div class="pricing-grid">
+      <div class="price-card reveal">
+        <div class="price-name">Starter</div>
+        <div class="price-amount">₹4,999<span>/month</span></div>
+        <div class="price-sub">Up to 25 employees</div>
+        <div class="price-features">
+          <div class="price-feature">✓ 2 campaigns per month</div>
+          <div class="price-feature">✓ Email templates only</div>
+          <div class="price-feature">✓ Click-tracking dashboard</div>
+          <div class="price-feature">✓ Auto-training on click</div>
+          <div class="price-feature">✓ Monthly PDF report</div>
+        </div>
+        <a href="#cta" class="price-btn">Start free audit</a>
+      </div>
+
+      <div class="price-card featured reveal">
+        <div class="price-badge">MOST POPULAR</div>
+        <div class="price-name">Growth</div>
+        <div class="price-amount">₹12,999<span>/month</span></div>
+        <div class="price-sub">Up to 100 employees</div>
+        <div class="price-features">
+          <div class="price-feature">✓ Unlimited campaigns</div>
+          <div class="price-feature">✓ Email + WhatsApp simulation</div>
+          <div class="price-feature">✓ AI-generated templates</div>
+          <div class="price-feature">✓ Department risk heatmaps</div>
+          <div class="price-feature">✓ Hindi + English training</div>
+          <div class="price-feature">✓ Priority support</div>
+        </div>
+        <a href="#cta" class="price-btn primary">Start free audit</a>
+      </div>
+
+      <div class="price-card reveal">
+        <div class="price-name">Enterprise</div>
+        <div class="price-amount">₹29,999<span>/month</span></div>
+        <div class="price-sub">Unlimited employees</div>
+        <div class="price-features">
+          <div class="price-feature">✓ Everything in Growth</div>
+          <div class="price-feature">✓ Vishing simulations</div>
+          <div class="price-feature">✓ CERT-In compliance reports</div>
+          <div class="price-feature">✓ HR software integration</div>
+          <div class="price-feature">✓ Dedicated CSM</div>
+        </div>
+        <a href="#cta" class="price-btn">Talk to us</a>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ COMPLIANCE ═══════════════════ -->
+<section class="section compliance-section" id="compliance">
+  <div class="wrap compliance-grid">
+    <div>
+      <span class="section-eyebrow">Built to be trusted</span>
+      <h2 style="color:var(--text-ink)">We take the legal and ethical part as seriously as the product.</h2>
+      <div class="compliance-points" style="margin-top:32px">
+        <div class="compliance-point">
+          <div class="compliance-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><path d="M10 2l7 3v5c0 4-3 7-7 8-4-1-7-4-7-8V5l7-3z" stroke="#1A8F6B" stroke-width="1.4"/></svg></div>
+          <div><h4>Signed authorization, every time</h4><p>No campaign launches without a one-page authorization agreement from the business. Full audit trail.</p></div>
+        </div>
+        <div class="compliance-point">
+          <div class="compliance-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><rect x="3" y="3" width="14" height="14" rx="2" stroke="#1A8F6B" stroke-width="1.4"/><path d="M6 10l2.5 2.5L14 7" stroke="#1A8F6B" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+          <div><h4>Never spoofs real domains</h4><p>All simulation emails come from dedicated, clearly logged domains — never from spoofed real bank or government infrastructure.</p></div>
+        </div>
+        <div class="compliance-point">
+          <div class="compliance-icon"><svg width="20" height="20" viewBox="0 0 20 20" fill="none"><circle cx="10" cy="10" r="7" stroke="#1A8F6B" stroke-width="1.4"/><path d="M10 6v4l3 2" stroke="#1A8F6B" stroke-width="1.4" stroke-linecap="round"/></svg></div>
+          <div><h4>Data hosted in India</h4><p>Employee data stays on infrastructure in the Mumbai region. Nothing leaves Indian jurisdiction.</p></div>
+        </div>
+      </div>
+    </div>
+    <div class="compliance-cert">
+      <div class="compliance-cert-header">
+        <h3>Compliance Summary</h3>
+        <span class="cert-badge">AUTO-GENERATED</span>
+      </div>
+      <div class="cert-row"><span class="label">RBI 2023 Cybersecurity Directive</span><span class="value">✓ Addressed</span></div>
+      <div class="cert-row"><span class="label">CERT-In Awareness Guidelines</span><span class="value">✓ Addressed</span></div>
+      <div class="cert-row"><span class="label">Data residency</span><span class="value">Mumbai (AWS ap-south-1)</span></div>
+      <div class="cert-row"><span class="label">Authorization on file</span><span class="value">✓ Signed</span></div>
+      <div class="cert-row"><span class="label">Report format</span><span class="value">Audit-ready PDF</span></div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FAQ ═══════════════════ -->
+<section class="section faq-section" id="faq">
+  <div class="wrap">
+    <span class="section-eyebrow">Questions</span>
+    <h2 style="margin-bottom:48px">Things people ask before they sign up.</h2>
+    <div class="faq-list">
+      <div class="faq-item open">
+        <div class="faq-q"><span>Is this legal? Aren't you basically phishing people?</span><span class="icon">+</span></div>
+        <div class="faq-a">Every campaign requires a signed authorization from the business before it launches — the same legal framework used by every authorized security testing firm globally, under IT Act 2000 provisions for authorized testing. We never spoof real domains, and every simulation page carries a visible disclosure tag proving it's a controlled test.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>Will this get flagged as spam by Gmail or Outlook?</span><span class="icon">+</span></div>
+        <div class="faq-a">We use dedicated, properly configured sending domains with SPF/DKIM authentication — the same setup real businesses use. This ensures deliverability while keeping the simulation realistic.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>How long does setup actually take?</span><span class="icon">+</span></div>
+        <div class="faq-a">Most businesses are live with their first campaign in under 10 minutes. Upload a CSV of employees, pick a template, hit launch. No integration or IT involvement required.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>Do you support languages other than English?</span><span class="icon">+</span></div>
+        <div class="faq-a">Yes — all training content is available in Hindi and English, with more Indian languages on the roadmap based on customer demand.</div>
+      </div>
+      <div class="faq-item">
+        <div class="faq-q"><span>What happens to the employee data we upload?</span><span class="icon">+</span></div>
+        <div class="faq-a">Employee data is encrypted, hosted on infrastructure in the Mumbai AWS region, and never shared with third parties. You can request full deletion at any time.</div>
+      </div>
+    </div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FINAL CTA ═══════════════════ -->
+<section class="final-cta" id="cta">
+  <div class="wrap final-cta-inner">
+    <h2>See your real click rate <em>before</em> an attacker does.</h2>
+    <p>Free 10-employee phishing audit. No card required. Report delivered in 48 hours.</p>
+    <form class="final-cta-form" id="lead-form">
+      <input type="email" id="lead-email" placeholder="you@yourcompany.in" required>
+      <button type="submit" class="btn-primary" id="lead-submit-btn" style="white-space:nowrap">Get free audit</button>
+    </form>
+    <div class="final-cta-note" id="lead-form-note">Join the businesses getting ahead of India's RBI cybersecurity mandate.</div>
+  </div>
+</section>
+
+<!-- ═══════════════════ FOOTER ═══════════════════ -->
+<footer>
+  <div class="wrap">
+    <div class="footer-grid">
+      <div>
+        <div class="footer-brand">PhishGuard<span class="dot">.</span></div>
+        <p class="footer-tagline">India's first phishing simulation platform built for Indian SMBs. Made in Jaipur.</p>
+      </div>
+      <div class="footer-col">
+        <h5>Product</h5>
+        <a href="#how">How it works</a>
+        <a href="#templates">Templates</a>
+        <a href="#pricing">Pricing</a>
+      </div>
+      <div class="footer-col">
+        <h5>Trust</h5>
+        <a href="#compliance">Compliance</a>
+        <a href="#">Security policy</a>
+        <a href="#">Responsible use</a>
+      </div>
+      <div class="footer-col">
+        <h5>Company</h5>
+        <a href="#">About</a>
+        <a href="#">Contact</a>
+        <a href="#">LinkedIn</a>
+      </div>
+    </div>
+    <div class="footer-bottom">
+      <span>© 2025 PhishGuard India. All rights reserved.</span>
+      <span>Built by a CTF security researcher · IIIT Kota</span>
+    </div>
+  </div>
+</footer>
+
+<script>
+// ── CONFIG ─────────────────────────────────────────────────────────────
+// Change this to your deployed backend URL when you go live.
+// Local dev default: http://localhost:8000
+const API_BASE = window.PHISHGUARD_API || 'http://localhost:8000';
+
+// Scroll reveal
+const reveals = document.querySelectorAll('.reveal');
+const obs = new IntersectionObserver((entries)=>{
+  entries.forEach(e=>{ if(e.isIntersecting) e.target.classList.add('in'); });
+},{threshold:0.15});
+reveals.forEach(el=>obs.observe(el));
+
+// FAQ accordion
+document.querySelectorAll('.faq-item').forEach(item=>{
+  item.querySelector('.faq-q').addEventListener('click', ()=>{
+    const isOpen = item.classList.contains('open');
+    document.querySelectorAll('.faq-item').forEach(i=>i.classList.remove('open'));
+    if(!isOpen) item.classList.add('open');
+  });
+});
+
+// ── LEAD CAPTURE FORM — posts to real backend ───────────────────────────
+const leadForm = document.getElementById('lead-form');
+const leadEmailInput = document.getElementById('lead-email');
+const leadSubmitBtn = document.getElementById('lead-submit-btn');
+const leadFormNote = document.getElementById('lead-form-note');
+
+leadForm.addEventListener('submit', async (e) => {
+  e.preventDefault();
+  const email = leadEmailInput.value.trim();
+  if (!email) return;
+
+  leadSubmitBtn.disabled = true;
+  leadSubmitBtn.textContent = 'Sending…';
+
+  try {
+    const formData = new FormData();
+    formData.append('email', email);
+    formData.append('source', 'landing_page');
+
+    const res = await fetch(`${API_BASE}/leads/create`, {
+      method: 'POST',
+      body: formData,
+    });
+
+    if (res.ok) {
+      leadForm.style.display = 'none';
+      leadFormNote.innerHTML = '✅ Thanks! We\'ll email your free audit details within 24 hours.';
+      leadFormNote.style.color = 'var(--green)';
+      leadFormNote.style.fontWeight = '600';
+    } else {
+      throw new Error('Request failed');
+    }
+  } catch (err) {
+    // Fallback: still acknowledge the user even if backend is unreachable,
+    // so a misconfigured API never blocks a real lead from feeling heard.
+    leadSubmitBtn.disabled = false;
+    leadSubmitBtn.textContent = 'Get free audit';
+    leadFormNote.innerHTML = '⚠️ Could not reach our server right now — please email us directly at hello@phishguard.in';
+    leadFormNote.style.color = 'var(--orange)';
+  }
+});
+
+
+// Template tabs
+const templates = {
+  hdfc: {
+    tag: 'MOST EFFECTIVE — BANKING',
+    title: 'HDFC Bank Security Alert',
+    desc: 'Fake "unusual login detected" notice with urgency-driven 24-hour verification deadline. Targets employees across every department — everyone has a bank account.',
+    stat: '58%',
+    statLabel: 'average click rate on first exposure',
+    html: `<div style="max-width:380px;border:1px solid #eee;border-radius:6px;overflow:hidden;font-family:Arial,sans-serif">
+      <div style="background:#004C8F;padding:14px 18px;color:#fff;font-weight:bold;font-size:15px">HDFC BANK</div>
+      <div style="padding:18px;font-size:12.5px;line-height:1.6;color:#222">
+        <p>Dear <strong>Priya Sharma</strong>,</p>
+        <div style="background:#FFF3CD;border-left:3px solid #FFC107;padding:9px 12px;margin:10px 0;font-size:11.5px">⚠️ Unusual login detected on your NetBanking account.</div>
+        <a style="display:inline-block;background:#004C8F;color:#fff;padding:9px 20px;font-weight:bold;font-size:12px;border-radius:3px;margin-top:8px">Verify Now →</a>
+      </div>
+    </div>`
+  },
+  gst: {
+    tag: 'HIGHEST URGENCY — COMPLIANCE',
+    title: 'GST Compliance Notice',
+    desc: 'A fake GSTR-3B discrepancy notice threatening GSTIN suspension. Specifically panics accounts and finance teams who fear regulatory penalties.',
+    stat: '62%',
+    statLabel: 'average click rate — highest of all templates',
+    html: `<div style="max-width:380px;border:1px solid #eee;border-radius:6px;overflow:hidden;font-family:Arial,sans-serif">
+      <div style="background:#1a4b8c;padding:14px 18px"><div style="color:#fff;font-weight:bold;font-size:14px">GST Portal</div><div style="color:#aac4f0;font-size:10.5px">Govt. of India</div></div>
+      <div style="padding:18px;font-size:12.5px;line-height:1.6;color:#222">
+        <p style="color:#b91c1c;font-weight:bold;font-size:13px">⚠ Discrepancy in GSTR-3B Filing</p>
+        <p style="font-size:11.5px;margin-top:6px">Suspension risk if unresolved within 7 days.</p>
+        <a style="display:inline-block;background:#1a4b8c;color:#fff;padding:9px 20px;font-weight:bold;font-size:12px;border-radius:3px;margin-top:8px">Respond Now →</a>
+      </div>
+    </div>`
+  },
+  epfo: {
+    tag: 'HIGH TRUST — HR / PAYROLL',
+    title: 'EPFO Refund Notice',
+    desc: 'A fake "PF refund approved" email — exploits the desire for unexpected money rather than fear, making it effective even on cautious employees.',
+    stat: '41%',
+    statLabel: 'average click rate — strong on HR & payroll teams',
+    html: `<div style="max-width:380px;border:1px solid #eee;border-radius:6px;overflow:hidden;font-family:Arial,sans-serif">
+      <div style="background:#1B4F72;padding:14px 18px"><div style="color:#fff;font-weight:bold;font-size:14px">EPFO</div><div style="color:#aac4f0;font-size:10.5px">Ministry of Labour</div></div>
+      <div style="padding:18px;font-size:12.5px;line-height:1.6;color:#222">
+        <p style="color:#22C55E;font-weight:bold;font-size:13px">✅ PF Refund Approved — ₹47,320</p>
+        <p style="font-size:11.5px;margin-top:6px">Claim within 72 hours via member portal.</p>
+        <a style="display:inline-block;background:#1B4F72;color:#fff;padding:9px 20px;font-weight:bold;font-size:12px;border-radius:3px;margin-top:8px">Claim Refund →</a>
+      </div>
+    </div>`
+  },
+  razorpay: {
+    tag: 'TARGETS — ONLINE SELLERS',
+    title: 'Razorpay Settlement Hold',
+    desc: 'Fake "settlement withheld" alert targeting any business that sells online. Creates immediate financial anxiety tied directly to cash flow.',
+    stat: '49%',
+    statLabel: 'average click rate among e-commerce teams',
+    html: `<div style="max-width:380px;border:1px solid #eee;border-radius:6px;overflow:hidden;font-family:Arial,sans-serif">
+      <div style="background:#2D81F7;padding:14px 18px;color:#fff;font-weight:bold;font-size:15px">Razorpay</div>
+      <div style="padding:18px;font-size:12.5px;line-height:1.6;color:#222">
+        <p style="color:#EF4444;font-weight:bold;font-size:13px">🚨 Settlement of ₹2,84,750 on hold</p>
+        <p style="font-size:11.5px;margin-top:6px">Complete KYC verification within 48 hours.</p>
+        <a style="display:inline-block;background:#2D81F7;color:#fff;padding:9px 20px;font-weight:bold;font-size:12px;border-radius:4px;margin-top:8px">Verify Now →</a>
+      </div>
+    </div>`
+  }
+};
+
+function renderTemplate(key){
+  const d = templates[key];
+  document.getElementById('tpl-info').innerHTML = `
+    <div class="template-info-tag">${d.tag}</div>
+    <h3>${d.title}</h3>
+    <p>${d.desc}</p>
+    <div class="template-stat"><strong>${d.stat}</strong>&nbsp; ${d.statLabel}</div>
+  `;
+  document.getElementById('tpl-preview').innerHTML = d.html;
+}
+document.querySelectorAll('.tab-btn').forEach(btn=>{
+  btn.addEventListener('click', ()=>{
+    document.querySelectorAll('.tab-btn').forEach(b=>b.classList.remove('active'));
+    btn.classList.add('active');
+    renderTemplate(btn.dataset.tpl);
+  });
+});
+</script>
+</body>
+</html>

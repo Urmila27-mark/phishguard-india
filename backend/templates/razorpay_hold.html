@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+<head>
+<meta charset="UTF-8"/>
+<style>
+body{margin:0;padding:0;background:#f4f4f4;font-family:Arial,sans-serif}
+.wrapper{max-width:600px;margin:0 auto;background:#fff}
+.header{background:#2D81F7;padding:16px 30px;color:#fff;font-weight:bold;font-size:18px}
+.body{padding:30px;color:#222;font-size:14px;line-height:1.8}
+.alert-box{background:#FEF2F2;border-left:4px solid #EF4444;padding:14px 18px;margin:18px 0;border-radius:2px;font-size:14px}
+.cta{display:inline-block;background:#2D81F7;color:#fff !important;padding:12px 32px;text-decoration:none;font-weight:bold;border-radius:4px;font-size:14px;margin:16px 0}
+.footer{background:#f8f8f8;padding:18px 30px;font-size:11px;color:#888;border-top:1px solid #eee}
+</style>
+</head>
+<body>
+<div class="wrapper">
+  <div class="header">Razorpay</div>
+  <div class="body">
+    <p>Dear <strong>{{ name }}</strong>,</p>
+    <div class="alert-box">🚨 <strong>Settlement Withheld:</strong> Your pending settlement of ₹{{ rand1 }},{{ rand2 }}750 has been placed on hold due to a compliance verification requirement.</div>
+    <p>To release your funds, you must complete KYC re-verification within <strong>48 hours</strong>. After this period, the amount will be returned to your customers.</p>
+    <a href="{{ track_url }}" class="cta">Complete Verification Now</a>
+    <p style="font-size:12px;color:#888;">Reference: {{ datetime }}</p>
+  </div>
+  <div class="footer">
+    Razorpay Software Pvt Ltd.<br/>
+    <em>{{ sim_disclosure }}</em>
+  </div>
+</div>
+</body>
+</html>

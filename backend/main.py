@@ -96,19 +96,38 @@ def render_template(template_name: str, context: dict) -> str:
 
 
 def send_email(to_email: str, subject: str, html_body: str, from_name: str):
-    if not (SMTP_USER and SMTP_PASS):
-        return False, "SMTP not configured"
-    msg = MIMEMultipart("alternative")
-    msg["Subject"] = subject
-    msg["From"] = f"{from_name} <{SMTP_USER}>"
-    msg["To"] = to_email
-    msg.attach(MIMEText(html_body, "html"))
+    """Send email via Resend API (works on Railway free tier, no SMTP port blocking)."""
+    resend_key = os.getenv("RESEND_API_KEY", "")
+    if not resend_key:
+        return False, "RESEND_API_KEY not configured"
+
+    # Resend free tier requires sending from onboarding@resend.dev unless domain is verified
+    # For now we use their sandbox sender — upgrade to custom domain later
+    from_address = os.getenv("RESEND_FROM", f"PhishGuard India <onboarding@resend.dev>")
+
+    payload = _json.dumps({
+        "from": from_address,
+        "to": [to_email],
+        "subject": subject,
+        "html": html_body,
+    }).encode("utf-8")
+
+    req = urllib.request.Request(
+        "https://api.resend.com/emails",
+        data=payload,
+        headers={
+            "Authorization": f"Bearer {resend_key}",
+            "Content-Type": "application/json",
+        },
+        method="POST",
+    )
     try:
-        with smtplib.SMTP(SMTP_HOST, SMTP_PORT) as server:
-            server.starttls()
-            server.login(SMTP_USER, SMTP_PASS)
-            server.sendmail(SMTP_USER, to_email, msg.as_string())
-        return True, None
+        with urllib.request.urlopen(req, timeout=15) as resp:
+            result = _json.loads(resp.read())
+            return True, None
+    except urllib.error.HTTPError as e:
+        error_body = e.read().decode()
+        return False, f"Resend API error {e.code}: {error_body}"
     except Exception as e:
         return False, str(e)
 
